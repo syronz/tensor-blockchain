@@ -1,7 +1,5 @@
 package blockchain
 
-import "fmt"
-
 type BlockChain struct {
 	Blocks []*Block
 }
@@ -16,7 +14,6 @@ type Block struct {
 func CreateBlock(data string, prevHash []byte) *Block {
 	block := &Block{[]byte{}, []byte(data), prevHash, 0}
 	pow := NewProof(block)
-	fmt.Println("###### blok.go, CreateBlock ----> pow: ", pow)
 	nonce, hash := pow.Run()
 
 	block.Hash = hash[:]

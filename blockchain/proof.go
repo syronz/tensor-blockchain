@@ -21,7 +21,7 @@ import (
 // Requirements:
 // The first few bytes must contain 0s
 
-const Difficulty = 2
+const Difficulty = 18
 
 type ProofOfWork struct {
 	Block  *Block
@@ -31,8 +31,6 @@ type ProofOfWork struct {
 func NewProof(b *Block) *ProofOfWork {
 	target := big.NewInt(1)
 	target.Lsh(target, uint(256-Difficulty))
-	fmt.Printf("&&&& %x\n", target)
-	fmt.Println("@@@@@   proof.go, NewProof -----> target: ", target, Difficulty)
 
 	pow := &ProofOfWork{b, target}
 
@@ -40,7 +38,6 @@ func NewProof(b *Block) *ProofOfWork {
 }
 
 func (pow *ProofOfWork) InitData(nonce int) []byte {
-	fmt.Println("******** ------> nonce: ", nonce)
 	data := bytes.Join(
 		[][]byte{
 			pow.Block.PrevHash,
@@ -63,9 +60,7 @@ func (pow *ProofOfWork) Run() (int, []byte) {
 		data := pow.InitData(nonce)
 		hash = sha256.Sum256(data)
 
-		// fmt.Println("\n^^^^^^ proof.go, Run -----> ", string(hash))
-		fmt.Printf("\n%x", hash)
-		// time.Sleep(1000 * time.Millisecond)
+		fmt.Printf("\r%x", hash)
 		intHash.SetBytes(hash[:])
 
 		if intHash.Cmp(pow.Target) == -1 {
@@ -76,7 +71,7 @@ func (pow *ProofOfWork) Run() (int, []byte) {
 
 	}
 
-	fmt.Println("\n\n\n")
+	fmt.Println()
 
 	return nonce, hash[:]
 }
