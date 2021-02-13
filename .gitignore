@@ -1,0 +1,4 @@
+*.vlog
+*.sst
+MANIFEST
+tmp/*
